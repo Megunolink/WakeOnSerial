@@ -72,6 +72,7 @@ void loop()
     Serial.begin(SERIAL_BAUD);
     
     Serial.println("Yawn. I'm awake!");
+    g_uLastSerial = millis();
   }
   
   ++g_uSheep;

@@ -44,21 +44,16 @@
   </serial-sources>
   <windows>
     <window>
-      <position left="1912" top="-8" width="1936" height="1216" state="Maximized" />
-      <DockPanel FormatVersion="1.0" DockLeftPortion="0.15" DockRightPortion="0.25" DockTopPortion="0.25" DockBottomPortion="0.25" ActiveDocumentPane="1" ActivePane="1">
+      <position left="2455" top="494" width="781" height="415" state="Normal" />
+      <DockPanel FormatVersion="1.0" DockLeftPortion="0.15" DockRightPortion="0.25" DockTopPortion="0.25" DockBottomPortion="0.25" ActiveDocumentPane="3" ActivePane="3">
         <Contents Count="4">
           <Content ID="0" PersistString="VisualizerToolbox" AutoHidePortion="0.25" IsHidden="False" IsFloat="False" />
-          <Content ID="1" PersistString="Startup" AutoHidePortion="0.25" IsHidden="False" IsFloat="False">
-            <SourceId>0</SourceId>
-            <TabTitle>Startup</TabTitle>
-            <ShowSourceInTitle>false</ShowSourceInTitle>
-          </Content>
-          <Content ID="2" PersistString="SourceManager" AutoHidePortion="0.25" IsHidden="False" IsFloat="False">
+          <Content ID="1" PersistString="SourceManager" AutoHidePortion="0.25" IsHidden="False" IsFloat="False">
             <SourceId>0</SourceId>
             <TabTitle>Connection Manager</TabTitle>
             <ShowSourceInTitle>false</ShowSourceInTitle>
           </Content>
-          <Content ID="3" PersistString="SerialMonitor" AutoHidePortion="0.25" IsHidden="False" IsFloat="False">
+          <Content ID="2" PersistString="SerialMonitor" AutoHidePortion="0.25" IsHidden="False" IsFloat="False">
             <WordWrap>true</WordWrap>
             <IncludeDate>false</IncludeDate>
             <IncludeTime>false</IncludeTime>
@@ -67,25 +62,52 @@
             <TabTitle>Monitor</TabTitle>
             <ShowSourceInTitle>false</ShowSourceInTitle>
           </Content>
+          <Content ID="3" PersistString="ButtonPanel" AutoHidePortion="0.25" IsHidden="False" IsFloat="False">
+            <SourceId>0</SourceId>
+            <TabTitle>Interface Panel</TabTitle>
+            <ShowSourceInTitle>false</ShowSourceInTitle>
+            <controls>
+              <control type="button">
+                <name>Wake</name>
+                <label>Wake</label>
+                <command><![CDATA[w]]></command>
+              </control>
+              <control type="button">
+                <name>Sleep</name>
+                <label>Sleep</label>
+                <command><![CDATA[s]]></command>
+              </control>
+            </controls>
+          </Content>
         </Contents>
-        <Panes Count="2">
+        <Panes Count="4">
           <Pane ID="0" DockState="DockRightAutoHide" ActiveContent="0">
             <Contents Count="1">
               <Content ID="0" RefID="0" />
             </Contents>
           </Pane>
-          <Pane ID="1" DockState="Document" ActiveContent="3">
-            <Contents Count="3">
+          <Pane ID="1" DockState="Document" ActiveContent="1">
+            <Contents Count="1">
               <Content ID="0" RefID="1" />
-              <Content ID="1" RefID="2" />
-              <Content ID="2" RefID="3" />
+            </Contents>
+          </Pane>
+          <Pane ID="2" DockState="Document" ActiveContent="2">
+            <Contents Count="1">
+              <Content ID="0" RefID="2" />
+            </Contents>
+          </Pane>
+          <Pane ID="3" DockState="Document" ActiveContent="3">
+            <Contents Count="1">
+              <Content ID="0" RefID="3" />
             </Contents>
           </Pane>
         </Panes>
         <DockWindows>
           <DockWindow ID="0" DockState="Document" ZOrderIndex="0">
-            <NestedPanes Count="1">
+            <NestedPanes Count="3">
               <Pane ID="0" RefID="1" PrevPane="-1" Alignment="Right" Proportion="0.5" />
+              <Pane ID="1" RefID="2" PrevPane="1" Alignment="Right" Proportion="0.459497206703911" />
+              <Pane ID="2" RefID="3" PrevPane="1" Alignment="Bottom" Proportion="0.5" />
             </NestedPanes>
           </DockWindow>
           <DockWindow ID="1" DockState="DockLeft" ZOrderIndex="1">
