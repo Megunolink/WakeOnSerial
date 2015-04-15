@@ -1,5 +1,5 @@
-#include <LowPower.h>
-#include <PinChangeInt.h>
+#include "LowPower.h"
+
 
 // The pin that the Arduino receives 
 // serial data on. 
@@ -24,10 +24,64 @@ unsigned long g_uLastSheepCount = 0;
 // awake until we get the 's' character. 
 bool g_bRemainAwake = false;
 
+
+
+#if defined(__AVR_ATmega328P__)
+// If we are using a 328p, we manually setup the pin-change interrupts
+// so that we can detect the serial port waking us.
+
+volatile bool g_bSerialWoke = false; 
+ISR(PCINT2_vect)
+{
+  g_bSerialWoke = true; 
+}
+
+void EnableSerialWake()
+{
+  g_bSerialWoke = false; 
+  pinMode(SERIAL_RX_PIN, INPUT_PULLUP);
+  // The serial port receive line is connect to pin-change interrupt 16. This is the
+  // first interrupt on the 3rd pin change interrupt vector. 
+  PCMSK2 |= 0x01; // Enable pin change interrupts on the rx pin
+  PCICR |= 0x04;   // enable the 3rd pin change interrupt vector. 
+  
+}
+
+void DisableSerialWake()
+{
+  // Disable the pin change interrupts
+  PCICR &= ~0x04;
+  PCMSK2 &= ~0x01;
+}
+
+#else
+
+#if 0
+#include "PinChangeInt.h"
+
+// Use Pin change interrupt handler by default. The serial port 
+// will wake us, but the WakeHandler never gets called due to a 
+// limitation of the pin-change library. 
 void WakeHandler()
 {
   // Nothing to do; just wakes the device. 
 }
+
+void EnableSerialWake()
+{
+  pinMode(SERIAL_RX_PIN, INPUT_PULLUP);
+  PCintPort::attachInterrupt(SERIAL_RX_PIN, &WakeHandler, FALLING);
+}
+
+void DisableSerialWake()
+{
+  // Disable the pin change interrupts
+  PCintPort::detachInterrupt(SERIAL_RX_PIN);
+}
+#endif
+
+#endif
+
 
 void setup()
 {
@@ -59,16 +113,17 @@ void loop()
     // Make sure all serial messages have been sent.
     Serial.flush();
   
+    Serial.end();
+    
     // Enable the pin change interrupt on the receive pin 
     // so that serial activity will wake the device.
-    pinMode(SERIAL_RX_PIN, INPUT_PULLUP);
-    PCintPort::attachInterrupt(SERIAL_RX_PIN, &WakeHandler, LOW);
+    EnableSerialWake();
 
     // Enter power down state. We'll wake periodically. 
     LowPower.powerDown(SLEEP_8S, ADC_OFF, BOD_OFF);  
-    
+
     // Detach pinchange interrupts & reconfigure serial port. 
-    PCintPort::detachInterrupt(SERIAL_RX_PIN);
+    //DisableSerialWake();
     Serial.begin(SERIAL_BAUD);
     
     Serial.println("Yawn. I'm awake!");
@@ -82,5 +137,9 @@ void loop()
     Serial.print("That's ");
     Serial.print(g_uSheep);
     Serial.println(" sheep. Can I go to sleep now?");
+    if (g_bSerialWoke)
+    {
+      Serial.println("The serial port work me!");
+    }
   }
 }
